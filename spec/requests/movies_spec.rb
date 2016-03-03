@@ -74,6 +74,17 @@ describe "movies API" do
     end
   end
 
+  describe "DELETE /movie/:id" do
+    it "destroys a movie" do
+      m = FactoryGirl.create :movie, title: "Nightmare on Elm Street"
+
+      delete "/movies/#{m.id}", {}, { "Accept" => "application/json"}
+
+      expect(response.status).to eq 200
+      expect(Movie.all.empty?).to be true
+    end
+  end
+
 
 
 end
