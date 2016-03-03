@@ -32,4 +32,48 @@ describe "movies API" do
     end
   end
 
+ describe "POST /movies" do
+    it "creates a movie" do
+      movie_params = {
+        "movie" => {
+          "title" => "Indiana Jones and the Temple of Doom"
+        }
+      }.to_json
+
+      request_headers = {
+        "Accept" => "application/json",
+        "Content-Type" => "application/json"
+      }
+
+      post "/movies", movie_params, request_headers
+
+      expect(response.status).to eq 201 # created
+      expect(Movie.first.title).to eq "Indiana Jones and the Temple of Doom"
+    end
+  end
+
+  describe "PATCH /movies" do
+    it "edits a movie" do
+      m = FactoryGirl.create :movie, title: "Matrix Reloaded"
+
+      movie_params = {
+        "movie" => {
+          "title" => "Matrix Revolutions"
+        }
+      }.to_json
+
+      request_headers = {
+        "Accept" => "application/json",
+        "Content-Type" => "application/json"
+      }
+
+      patch "/movies/#{m.id}", movie_params, request_headers
+
+      expect(response.status).to eq 200
+      expect(Movie.first.title).to eq "Matrix Revolutions"
+    end
+  end
+
+
+
 end
