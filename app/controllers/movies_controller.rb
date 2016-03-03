@@ -2,7 +2,11 @@ class MoviesController < ApplicationController
   before_action :find_movie, only: [:update, :destroy]
 
   def index
-    render json:  Movie.all
+    @movies = Movie.all
+    respond_to do |format|
+      format.html
+      format.json { render json:  @movies }
+    end
   end
 
   def show
