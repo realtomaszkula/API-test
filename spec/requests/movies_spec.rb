@@ -17,4 +17,19 @@ describe "movies API" do
                                            "The Fellowship of the Ring"])
     end
   end
+
+
+  describe 'GET /movies/:id' do
+    it 'returns a requested movie' do
+      m = FactoryGirl.create :movie, title: "2001: A Space Odyssey"
+
+      get "/movies/#{m.id}", {}, { "Accept" => "application/json" }
+
+      expect(response.status).to eq 200
+
+      body = JSON.parse(response.body)
+      expect(body["title"]).to eq "2001: A Space Odyssey"
+    end
+  end
+
 end
